@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Route, Routes, Router, Outlet, Navigate } from "react-router-dom";
+import {Navigate } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
 import Dashboard from "../Components/Dashboard";
 
