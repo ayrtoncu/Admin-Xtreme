@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import DashboardContent from './Components/Dashboard';
 import Root from './Pages/Root';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
