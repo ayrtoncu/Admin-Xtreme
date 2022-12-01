@@ -21,10 +21,14 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import HikingIcon from "@mui/icons-material/Hiking";
+import LogoutIcon from "@mui/icons-material/Logout";
 import DashboardScrean from "../Screens/DashboardScrean";
 import Bookings from "../Screens/Bookings";
 import CustomersScreen from "../Screens/CustomersScreen";
 import ReportsScreen from "../Screens/ReportsScreen";
+//Firebase import Auth
+import { signOut, getAuth } from "firebase/auth";
+import { Avatar, Menu, MenuItem } from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -36,7 +40,7 @@ function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://innov8dmarketing.info/">
-        Innovade Marketing
+        Innov8d Marketing
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -95,12 +99,28 @@ const mdTheme = createTheme();
 function DashboardContent() {
   const [open, setOpen] = useState(true);
   const [page, setPage] = useState({ title: "Dashboard", select: 0 });
+  const [menuProfile, setMenuProfile] = useState(null);
+  const menuOpen = Boolean(menuProfile);
+  const auth = getAuth();
   const toggleDrawer = () => {
     setOpen(!open);
+  };
+  const handleClick = (event) => {
+    setMenuProfile(event.currentTarget);
+  };
+  const closeMenuProfile = () => {
+    setMenuProfile(null);
   };
   const screenView = (title, index) => {
     setPage({ title, index });
   };
+  const logout = () => {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
   const pages = [
     {
       page: <DashboardScrean />,
@@ -159,7 +179,57 @@ function DashboardContent() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+            <IconButton
+              onClick={handleClick}
+              size="small"
+              sx={{ ml: 2 }}
+              aria-controls={open ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+            >
+              <Avatar sx={{ width: 32, height: 32 }}>A</Avatar>
+            </IconButton>
           </Toolbar>
+          <Menu
+            anchorEl={menuProfile}
+            id="account-menu"
+            open={menuOpen}
+            onClose={closeMenuProfile}
+            onClick={closeMenuProfile}
+            PaperProps={{
+              elevation: 0,
+              sx: {
+                overflow: "visible",
+                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                mt: 1.5,
+                "& .MuiAvatar-root": {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: 1,
+                },
+                "&:before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "background.paper",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
+              },
+            }}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
+            <MenuItem>Inicio</MenuItem>
+            <MenuItem>Perfil</MenuItem>
+            <MenuItem>Settings</MenuItem>
+            <MenuItem onClick={logout}>Cerrar Sesion</MenuItem>
+          </Menu>
         </AppBar>
         <Drawer variant="permanent" open={open}>
           <Toolbar
