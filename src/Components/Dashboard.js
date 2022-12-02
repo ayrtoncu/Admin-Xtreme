@@ -30,6 +30,8 @@ import ReportsScreen from "../Screens/ReportsScreen";
 import { signOut, getAuth } from "firebase/auth";
 import { Avatar, Menu, MenuItem } from "@mui/material";
 
+//Imagenes
+import avatarDefault from '../assets/images/avatars/avatar_default.jpg'
 function Copyright(props) {
   return (
     <Typography
@@ -39,7 +41,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://innov8dmarketing.info/">
+      <Link color="inherit" target="_blank" href="https://innov8dmarketing.info/">
         Innov8d Marketing
       </Link>{" "}
       {new Date().getFullYear()}
@@ -118,7 +120,7 @@ function DashboardContent() {
     signOut(auth).then(() => {
       // Sign-out successful.
     }).catch((error) => {
-      // An error happened.
+      console.log(error)
     });
   }
   const pages = [
@@ -150,7 +152,7 @@ function DashboardContent() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px", // keep right padding when drawer closed
+              pr: "35px", // keep right padding when drawer closed
             }}
           >
             <IconButton
@@ -187,7 +189,8 @@ function DashboardContent() {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
-              <Avatar sx={{ width: 32, height: 32 }}>A</Avatar>
+              <Avatar sx={{ width: 42, height: 42 }} src={avatarDefault}>
+              </Avatar>
             </IconButton>
           </Toolbar>
           <Menu
@@ -227,7 +230,8 @@ function DashboardContent() {
           >
             <MenuItem>Inicio</MenuItem>
             <MenuItem>Perfil</MenuItem>
-            <MenuItem>Settings</MenuItem>
+            <MenuItem>Configuracion</MenuItem>
+            <Divider />
             <MenuItem onClick={logout}>Cerrar Sesion</MenuItem>
           </Menu>
         </AppBar>
